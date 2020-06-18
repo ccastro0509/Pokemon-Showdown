@@ -3634,11 +3634,12 @@ export const BattleAbilities: {[abilityid: string]: AbilityData} = {
 		num: 116,
 	},
 	soulheart: {
-		desc: "This Pokemon's Special Attack is raised by 1 stage when another Pokemon faints.",
-		shortDesc: "This Pokemon's Sp. Atk is raised by 1 stage when another Pokemon faints.",
-		onAnyFaintPriority: 1,
-		onAnyFaint() {
-			this.boost({spa: 1}, this.effectData.target);
+		desc: "This Pokemon's Special  Attack is raised by 1 stage if it attacks and knocks out another Pokemon.",
+		shortDesc: "This Pokemon's Special Attack is raised by 1 stage if it attacks and KOes another Pokemon.",
+		onSourceAfterFaint(length, target, source, effect) {
+			if (effect && effect.effectType === 'Move') {
+				this.boost({spa: length}, source);
+			}
 		},
 		name: "Soul-Heart",
 		rating: 3.5,
